@@ -201,71 +201,10 @@ class deck:
                         # Found a Pair
                         if args.verbose: print 'Found a Pair!'
                         return 'Pair'
+                    # End if
                 # End for
-
-                """if num_same == 3:
-                    for val in unique:
-                        if self.values.count(val) == 4:
-                            # Found Four of a kind
-                            if args.verbose: print 'Found a Four of a Kind!'
-                            return 'Four of a Kind'
-                        # End if
-                    # End for
-
-                    trip = None
-                    for val in unique:
-                        if self.values.count(val) == 3:
-                            trip = val
-                            for value in unique:
-                                if value == trip:
-                                    continue
-                                elif self.values.count(value) == 2:
-                                    # Found Full House
-                                    if args.verbose: print 'Found a Full House!'
-                                    return 'Full House'
-                                # End if/else block
-                            # End for
-                        # End if
-                    # End for
-
-                    # Error
-                    print 'Something is wrong!!!'
-                    print 'Cards: ', self.cards
-                    print 'Unique: ', unique
-                    sys.exit(0)
-                # End if
-
-                if straight:
-                    # Found Straight
-                    if args.verbose: print 'Found a Straight!'
-                    return 'Straight'
-                # End if
-
-                if num_same == 2:
-                    pair_flag = False
-
-                    for value in unique:
-                        cnt = self.values.count(value)
-                        if cnt == 3:
-                            # Found Three of a Kind
-                            if args.verbose: print 'Found Three of a Kind!'
-                            return 'Three of a Kind'
-                        elif cnt == 2:
-                            if not pair_flag:
-                                pair_flag = True
-                            else:
-                                # Found Two Pair
-                                if args.verbose: print 'Found a Two Pair!'
-                                return 'Two Pair'
-                        # End if/else block
-                    # End for
-                elif num_same == 1:
-                    # Found a Pair
-                    if args.verbose: print 'Found a Pair!'
-                    return 'Pair'
-                # End if/else block
-            # End if/else block"""
-
+            # End else
+            
             if args.verbose: print 'Found a High Card!'
             return 'High Card'
         # End def
