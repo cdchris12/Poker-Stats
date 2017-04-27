@@ -320,16 +320,6 @@ class deck:
 def main():
     start_time = time.time()
 
-    if not args.num_hands:
-        print 'You must supply a value for the number of hands you wish to run this statistical analysis on.'
-        sys.exit()
-    # End if
-
-    if not args.num_cards:
-        print 'You must supply a value for the number of cards you wish to draw per hand.'
-        sys.exit()
-    # End if
-
     if args.testing:
         res = logic_test()
         if res:
@@ -338,6 +328,16 @@ def main():
             print 'Testing failed!!!'
         # End if/else block
         sys.exit(0)
+    # End if
+    
+    if not args.num_hands:
+        print 'You must supply a value for the number of hands you wish to run this statistical analysis on.'
+        sys.exit()
+    # End if
+
+    if not args.num_cards:
+        print 'You must supply a value for the number of cards you wish to draw per hand.'
+        sys.exit()
     # End if
 
     if not args.multiprocessing:
