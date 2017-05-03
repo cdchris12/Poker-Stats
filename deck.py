@@ -1,5 +1,6 @@
 import random
 from copy import deepcopy
+from operator import itemgetter
 
 secure_random = random.SystemRandom()
 
@@ -98,6 +99,24 @@ class deck:
         # End def
 
         def is_straight(self):
+
+            def count_straight(values):
+                counter = 1
+                for i, value in enumerate(values):
+                    if i == 0:
+                        continue
+                    elif values[i-1] == value - 1:
+                        counter += 1
+                    else:
+                        counter = 1
+                    # End if/else block
+
+                    if counter == 5: return True
+                else:
+                    return False
+                # End for/else block
+            # End def
+
             if 1 in self.values and 13 in self.values:
                 values_low = sorted(self.values)
                 values_high = deepcopy(self.values)
@@ -105,51 +124,12 @@ class deck:
                 values_high.append(14)
                 values_high = sorted(values_high)
 
-                counter = 1
-                for i, value in enumerate(values_low):
-                    if i == 0:
-                        continue
-                    elif values_low[i-1] == value - 1:
-                        counter += 1
-                    else:
-                        counter = 1
-                    # End if/else block
-
-                    if counter == 5: return True
-                else:
-                    counter = 1
-                # End for/else block
-
-                for i, value in enumerate(values_high):
-                    if i == 0:
-                        continue
-                    elif values_high[i-1] == value - 1:
-                        counter += 1
-                    else:
-                        counter = 1
-                    # End if/else block
-
-                    if counter == 5: return True
-                else:
-                    return False
-                # End for/else block
+                if count_straight(values_low): return True
+                elif count_straight(values_high): return True
+                else: return False
             else:
-                sorted_values = sorted(self.values)
-
-                counter = 1
-                for i, value in enumerate(sorted_values):
-                    if i == 0:
-                        continue
-                    elif sorted_values[i-1] == value - 1:
-                        counter += 1
-                    else:
-                        counter = 1
-                    # End if/else block
-
-                    if counter == 5: return True
-                else:
-                    return False
-                # End for/else block
+                if count_straight(sorted(self.values)): return True
+                else: return False
             # End if/else block
         # End def
 
@@ -158,6 +138,7 @@ class deck:
 
             flush = False
             straight = False
+            pair = self.has_pair()
 
             if self.size >= 5:
                 flush = self.is_flush()
@@ -188,77 +169,81 @@ class deck:
                 # End if
             # End if
 
-            unique = list(set(self.values))
-            num_unique = len(unique)
-            num_same = self.size - num_unique
-            # Tells us how many unique cards we have in this hand.
-
-            if self.size >= 4:
-                for val in unique:
-                    if self.values.count(val) == 4:
-                        # Found Four of a kind
-                        if self.verbose: print 'Found a Four of a Kind!'
-                        return 'Four of a Kind'
-                    # End if
-                # End for
-            # End if
-
-            if self.size >= 3:
-                for val in unique:
-                    if self.values.count(val) == 3 and self.size >= 5:
-                        trip = val
-                        for value in unique:
-                            if value == trip:
-                                continue
-                            elif self.values.count(value) >= 2:
-                                # Found Full House
-                                if self.verbose: print 'Found a Full House!'
-                                return 'Full House'
-                            # End if/else block
-                        # End for
-                    if self.values.count(val) == 3:
-                        # Found Three of a Kind
-                        if self.verbose: print 'Found Three of a Kind!'
-                        return 'Three of a Kind'
-                    # End if/else block
-                # End for
-            # End if
-
-            if flush:
-                # Found Flush
-                if self.verbose: print "Found Flush!"
+            if pair == 'Four of a Kind':
+                # Found Four of a kind
+                if self.verbose: print 'Found a Four of a Kind!'
+                return 'Four of a Kind'
+            elif pair == 'Full House':
+                # Found Full House
+                if self.verbose: print 'Found a Full House!'
+                return 'Full House'
+            elif flush:
+                # Found a Flush
+                if self.verbose: print "Found a Flush!"
                 return "Flush"
-            # End if
-
-            if straight:
-                # Found Straight
+            elif straight:
+                # Found a Straight
                 if self.verbose: print 'Found a Straight!'
                 return 'Straight'
-            # End if
+            elif pair == 'Three of a Kind':
+                # Found Three of a Kind
+                if self.verbose: print 'Found Three of a Kind!'
+                return 'Three of a Kind'
+            elif pair == 'Two Pair':
+                # Found Two Pair
+                if self.verbose: print 'Found Two Pair!'
+                return 'Two Pair'
+            elif pair == 'Pair':
+                # Found a Pair
+                if self.verbose: print 'Found a Pair!'
+                return 'Pair'
+            else:
+                # Found a High Card
+                if self.verbose: print 'Found a High Card!'
+                return 'High Card'
+            # End if/else block
+        # End def
 
-            if self.size >= 2:
-                for val in unique:
-                    if self.values.count(val) == 2:
-                        dub = val
-                        for value in unique:
-                            if value == dub:
-                                continue
-                            elif self.values.count(value) == 2:
-                                # Found Two Pair
-                                if self.verbose: print 'Found Two Pair!'
-                                return 'Two Pair'
-                            # End if/else block
-                        # End for
+        def has_pair(self):
+            if self.size == 1: return False
 
-                        # Found a Pair
-                        if self.verbose: print 'Found a Pair!'
+            count = {}
+            for value in self.values:
+                if value in count:
+                    count[value] += 1
+                else:
+                    count[value] = 1
+                # End if/else block
+            # End for
+
+            sorted_count = sorted(count.items(), key=itemgetter(1), reverse=True)
+            # List of tuples: ('value', number_of_occurances)
+
+            for i, item in enumerate(sorted_count):
+                if item[1] == 4:
+                    return 'Four of a Kind'
+                elif item[1] == 3:
+                    try:
+                        if sorted_count[i+1][1] >= 2:
+                            return 'Full House'
+                    except IndexError, e:
+                        # If we reach the last index, we know we have Three of a Kind
+                        return 'Three of a Kind'
+                    else:
+                        return 'Three of a Kind'
+                elif item[1] == 2:
+                    try:
+                        if sorted_count[i+1][1] == 2:
+                            return 'Two Pair'
+                    except IndexError, e:
+                        # If we reach the last index, we know we have a Pair
                         return 'Pair'
-                    # End if
-                # End for
-            # End if
-
-            if self.verbose: print 'Found a High Card!'
-            return 'High Card'
+                    else:
+                        return 'Pair'
+                # End if/else block
+            else:
+                return False
+            # End for/else block
         # End def
     # End class
 
@@ -272,7 +257,7 @@ class deck:
         self.deck = []
         for suit in self.suits:
             for i, value in enumerate(self.values):
-                self.deck.append( deck.card(suit, value, self.names[i]) )
+                self.deck.append( deck.card(suit, value, self.names[i], verbose) )
             # End for
         # End for
         if self.verbose:
