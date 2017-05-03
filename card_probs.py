@@ -97,8 +97,8 @@ def do_work(cards=0, hands=0, verbose=False, queue=None, _id=1):
     results = {}
 
     for i in range(hands):
-        if verbose: print 'Drawing hand #%s...' % (i * _id)
-        cur_hand = card_deck.get_hand(cards)
+        if verbose: print '\nDrawing hand #%s...' % (i * _id)
+        cur_hand = card_deck.get_hand(cards, verbose)
         res = cur_hand.score()
 
         if res not in results.keys():

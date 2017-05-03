@@ -257,7 +257,7 @@ class deck:
         self.deck = []
         for suit in self.suits:
             for i, value in enumerate(self.values):
-                self.deck.append( deck.card(suit, value, self.names[i]) )
+                self.deck.append( deck.card(suit, value, self.names[i], verbose) )
             # End for
         # End for
         if self.verbose:
