@@ -6,16 +6,18 @@ def run_test(t_hand, expected, verbose=False):
         res = t_hand.score()
         assert res == expected
     except Exception, e:
+        print e
         print 'Expected "', expected,'", got " ', res, '" instead.'
         return False
     else:
         if verbose: print '%s Testing PASSED!!!\n' % expected
+        return True
     # End try/except/else block
 # End def
 
 def logic_test(verbose=False):
     # Suit, Value, Name
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 1, 'Ace'),
             deck.card('Spades', 13, 'King'),
@@ -24,9 +26,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Royal Flush',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 1, 'Ace'),
             deck.card('Spades', 13, 'King'),
@@ -38,9 +40,9 @@ def logic_test(verbose=False):
             deck.card('Clubs', 1, 'Ace'),
         ], verbose),
         'Royal Flush',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Spades', 13, 'King'),
@@ -49,9 +51,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Straight Flush',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Spades', 13, 'King'),
@@ -60,9 +62,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Flush',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Diamonds', 9, 'Nine'),
@@ -71,9 +73,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Four of a Kind',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Diamonds', 9, 'Nine'),
@@ -82,9 +84,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Full House',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Diamonds', 9, 'Nine'),
@@ -93,9 +95,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Three of a Kind',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Diamonds', 9, 'Nine'),
@@ -104,9 +106,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Two Pair',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 9, 'Nine'),
             deck.card('Diamonds', 9, 'Nine'),
@@ -115,9 +117,9 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'Pair',
-    verbose)
+    verbose)) : return False
 
-    run_test(
+    if not (run_test(
         deck.hand([
             deck.card('Spades', 3, 'Three'),
             deck.card('Diamonds', 9, 'Nine'),
@@ -126,7 +128,7 @@ def logic_test(verbose=False):
             deck.card('Spades', 10, 'Ten'),
         ], verbose),
         'High Card',
-    verbose)
+    verbose)) : return False
 
     return True
 # End def
