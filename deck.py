@@ -305,4 +305,36 @@ class deck:
 
         return deck.hand(hand_list, verbose)
     # End def
+
+    def has_pair(self):
+        count = {}
+        for value in self.values:
+            if value in count:
+                count[value] += 1
+            else:
+                count[value] = 1
+            # End if/else block
+        # End for
+
+        sorted_count = sorted(count.items(), key=itemgetter(1))
+        # List of tuples: ('value', number_of_occurances)
+
+        for i, item in enumerate(sorted_count):
+            if item[1] == 4:
+                return 'Four of a Kind'
+            elif: item[1] == 3:
+                if sorted_count[i+1][1] >= 2:
+                    return 'Full House'
+                else:
+                    return 'Three of a Kind'
+            elif: item[1] == 2:
+                if sorted_count[i+1][1] == 2:
+                    return 'Two Pair'
+                else:
+                    return 'Pair'
+            # End if/else block
+        else:
+            return False
+        # End for/else block
+    # End def
 # End class

@@ -24,21 +24,21 @@ def main():
     if args.testing:
         res = logic_test(args.verbose)
         if res:
-            print 'Testing passed!!!'
+            print 'Testing PASSED!!!'
         else:
-            print 'Testing failed!!!'
+            print 'Testing FAILED!!!'
         # End if/else block
         sys.exit(0)
     # End if
 
     if not args.num_hands:
         print 'You must supply a value for the number of hands you wish to run this statistical analysis on.'
-        sys.exit()
+        sys.exit(1)
     # End if
 
     if not args.num_cards:
         print 'You must supply a value for the number of cards you wish to draw per hand.'
-        sys.exit()
+        sys.exit(1)
     # End if
 
     if not args.multiprocessing:
@@ -79,7 +79,7 @@ def main():
     # End if/else block
 
     sorted_res = sorted(results.items(), key=itemgetter(1))
-    # List of tuples: ('Name of Match', number_of_occurances)
+    # List of tuples: ('Name_of_match', number_of_occurances)
 
     print 'The results of %s consecutive %s card draws are as follows: \n' % (args.num_hands, args.num_cards)
     for item in sorted_res:
@@ -88,6 +88,7 @@ def main():
 
     print "\n"
     print "--- Generated in %.4f seconds ---" % (time.time() - start_time)
+    sys.exit(0)
 # End def
 
 def do_work(cards=0, hands=0, verbose=False, queue=None, _id=1):
